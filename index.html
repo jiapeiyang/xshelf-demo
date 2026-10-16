@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的 X 书签</title><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 14 20%22><path d=%22M0 0h14v20l-7-5.5L0 20z%22 fill=%22%23B3203A%22/></svg>">
+<!-- 正文宋体走 Google Fonts，异步加载：连不上时直接用系统宋体，不阻塞首屏 -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/style.css"></head><body>
+<div class="app">
+ <aside class="side">
+  <div class="brand"><svg class="rib" viewBox="0 0 14 20" aria-hidden="true"><path d="M0 0h14v20l-7-5.5L0 20z"/></svg><span id="brand">我的 X 书签</span></div>
+  <nav id="cats" aria-label="分类"></nav>
+  <div class="foot"><p class="sync" id="sync">加载中…</p><p class="credit">用 <a href="https://github.com/jiapeiyang/xshelf" target="_blank" rel="noopener">xshelf</a> 搭建</p></div>
+ </aside>
+ <section class="list" aria-label="书签列表">
+  <div class="lhead">
+   <div class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <label class="vh" for="q">搜索书签</label><input id="q" type="search" placeholder="搜索标题、正文、作者" autocomplete="off"><kbd>/</kbd></div>
+   <div class="lrow"><span id="count"></span><button class="tog" id="unread" aria-pressed="false">只看未读</button>
+    <label class="vh" for="sort">排序</label><select id="sort"><option value="bm">最近收藏</option><option value="new">最新发帖</option><option value="old">最早发帖</option></select></div>
+  </div>
+  <ol id="items"></ol>
+ </section>
+ <main class="page" id="page" tabindex="-1">
+  <div class="pbar"><button id="back">‹ 返回列表</button><span id="pcat"></span></div>
+  <div id="doc"></div>
+ </main>
+</div>
+<script src="assets/app.js"></script></body></html>
