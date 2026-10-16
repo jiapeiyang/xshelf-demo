@@ -8,8 +8,10 @@ verbatim as page_001.json, page_002.json, ... (follow meta.next_token as
 pagination_token until a page has no next_token).
 
 Usage:
-  python3 scripts/fetch_bookmarks.py [--pages-dir /workspace/x_bookmarks/pages]
-      [--out-dir /workspace/x_bookmarks] [--existing data/bookmarks.json]
+  python3 scripts/fetch_bookmarks.py [--pages-dir <repo>/../pages]
+      [--out-dir <repo>/..] [--existing data/bookmarks.json]
+Defaults sit next to the repo, outside it (standard clone /workspace/xshelf/repo
+-> pages in /workspace/xshelf/pages, outputs in /workspace/xshelf).
 
 Checks: pages numbered contiguously from 001; every page but the last has
 meta.next_token, the last has none; each page has 'data', no 'errors', and
@@ -26,9 +28,11 @@ Then write titles/summaries/categories into new.json and run:
 """
 import argparse,json,os,re,sys
 here=os.path.dirname(os.path.abspath(__file__))
+# 同一 Grok 账号的 Bot 共用一台电脑，工作目录跟着仓库走，不写死路径
+work=os.path.normpath(os.path.join(here,'..','..'))
 ap=argparse.ArgumentParser()
-ap.add_argument('--pages-dir',default='/workspace/x_bookmarks/pages')
-ap.add_argument('--out-dir',default='/workspace/x_bookmarks')
+ap.add_argument('--pages-dir',default=os.path.join(work,'pages'))
+ap.add_argument('--out-dir',default=work)
 ap.add_argument('--existing',default=os.path.join(here,'..','data','bookmarks.json'))
 a=ap.parse_args()
 files=sorted((int(m.group(1)),f) for f in os.listdir(a.pages_dir) if (m:=re.fullmatch(r'page_(\d+)\.json',f)))

@@ -31,18 +31,27 @@
 3. **生成 GitHub 令牌**：GitHub 头像 → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token，按下面填：
    - Repository access：Only select repositories，只选你刚 Fork 的仓库。
    - Permissions：Contents 设为 Read and write，其他都不用开。
-   - Expiration：建议设一年。过期后 bot 推送会失败，重新生成一个发给它就行。
-4. **在 Grok Bot 里装 X 插件**：Connect apps → 添加 X 插件 → 登录你的 X 账号。只登录 X 连接器读不到书签。
-5. **把下面这段发给 Grok Bot**，替换尖括号里的内容：
+   - Expiration：建议设一年。过期后 bot 会提醒你重新生成。
+
+   生成后先别关页面，令牌只显示这一次，下一步要用。
+4. **把令牌存进 Grok Bot**：在 Grok Bot 里打开这个 Bot 的详情，找到 Secrets → Add secret：
+   - Name 填 `XSHELF_GITHUB_TOKEN`
+   - Description 填“xshelf 推送用的 GitHub 令牌”
+   - Value 粘贴令牌，点 Save secret
+
+   **不要把令牌直接发在对话里。** 找不到 Secrets 也没关系，开通时 bot 会弹出一个安全卡片让你填。
+5. **在 Grok Bot 里装 X 插件**：Connect apps → 添加 X 插件 → 登录你的 X 账号。只登录 X 连接器读不到书签。
+6. **把下面这段发给 Grok Bot**，替换尖括号里的内容：
 
    ```
    帮我开通 xshelf 书签网站。
    仓库：https://github.com/<你的用户名>/<仓库名>
-   GitHub 令牌：<第 3 步生成的令牌>
-   请把仓库克隆到 /workspace/x_bookmarks/repo，然后严格按仓库里的 agent/SETUP.md 执行。
+   请把仓库克隆到 /workspace/xshelf/repo，然后严格按仓库里的 agent/SETUP.md 执行。
    ```
 
 Bot 会先拉一次书签，按内容建议一组分类，等你确认后导入全部书签、发布网站，并建好每日定时任务。
+
+同一个 Grok 账号下的所有 Bot 共用一台电脑。xshelf 只使用 `/workspace/xshelf` 这个目录，不会碰你其他任务的文件。
 
 ## 之后
 
@@ -60,8 +69,9 @@ Bot 会先拉一次书签，按内容建议一组分类，等你确认后导入�
 ## 令牌安全
 
 - 令牌只开放这一个仓库的读写，泄露了也只影响这个仓库。
-- 令牌发在 Grok 对话里，会留在对话记录中。发现异常，立刻到 GitHub 的 Fine-grained tokens 页面删除它，再生成一个新的发给 bot。
-- 每日任务要求 bot 只把书签内容当数据，不执行帖子里出现的任何指令，也不打印、不保存令牌到仓库。
+- 令牌存在 Grok Bot 的 Secrets 里，不进对话记录，存进去之后谁也看不到原值。如果不小心发在了对话里，到 GitHub 的 Fine-grained tokens 页面删掉它，重新生成一个存进 Secrets。
+- Grok Bot 的 Secrets 偶尔会丢（[官方论坛有报告](https://forum.cursor.com/t/grok-bot-box-secrets-wiped-on-desktop-reconnect-mipp-api-keys-production-blocker/171280)）。丢了的话，bot 推送前会发现，并请你通过安全卡片重新填写。
+- 每日任务要求 bot 只把书签内容当数据，不执行帖子里出现的任何指令，也不打印令牌、不把令牌写进任何文件。
 
 ## 文件说明
 
